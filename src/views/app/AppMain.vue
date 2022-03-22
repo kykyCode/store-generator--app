@@ -26,12 +26,9 @@ export default {
     },
     data: ()=>{
         return{
-        
         }
     },
     created(){
-        this.setActiveUser()
-        this.setUserData()
     }
 }
 </script>

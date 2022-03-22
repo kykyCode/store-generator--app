@@ -6,6 +6,7 @@ import AppOrders from '../../views/app/orders/AppOrders'
 import AppProducts from '../../views/app/products/AppProducts'
 import AppCreator from '../../views/app/creator/CreatorView'
 import AppAdminEdit from '../../views/app/users/AppAdminEdit'
+import StoreCreation from '../../views/app/store/store creation/StoreCreationProcess'
 import store from '../../store/store'
 import {readCookie} from '../../helpers/cookiesHelper'
 
@@ -60,6 +61,11 @@ const dashboard = {
             path: "creator",
             name: "creator",
             component: AppCreator
+        },
+        {
+            path: "create-store",
+            name: "create-store",
+            component: StoreCreation
         }
     ]
     

@@ -35,19 +35,19 @@
                     </div>
                 </div>
                 <h4 class="mt-4 o-5">General information</h4>
-                <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
+                <div v-if="currentUser.first_name" class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">First Name</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.first_name" class="text-field__style col-7" type="text">
                 </div>
-                <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
+                <div v-if="currentUser.last_name" class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">Last Name</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.last_name" class="text-field__style col-7" type="text">
                 </div>
-                <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
+                <div v-if="currentUser.email" class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">E-mail</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.email" class="text-field__style col-7" type="text">
                 </div>
-
+                <div v-if="currentUser.Address">
                 <h4 class="mt-5 o-5">Change password</h4>
                 <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">Old password</div>
@@ -65,52 +65,84 @@
                 <h4 class="mt-5 o-5">Address</h4>
                 <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">Street</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.Address.street" class="text-field__style col-7" type="text">
                 </div>
                 <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">Flat number</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.Address.flat_number" class="text-field__style col-7" type="text">
                 </div>
                 <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">City</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.Address.city" class="text-field__style col-7" type="text">
                 </div>
                 <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">Postal Code</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.Address.postal_code"  class="text-field__style col-7" type="text">
                 </div>
-                <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
+                <div  class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">Country</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.Address.country" class="text-field__style col-7" type="text">
                 </div>
-                <div class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
+                <div  class="d-flex mt-3 o-5" style="width:100%; align-items:center;">
                     <div class="col-5">State (optional)</div>
-                    <input class="text-field__style col-7" type="text">
+                    <input v-model="currentUser.Address.state" class="text-field__style col-7" type="text">
+                </div>
                 </div>
                 <h4 class="mt-5 o-5 mb-3">Payment methods</h4>
                 <div class="d-flex">
                     <div class="payment_card mx-2"><img style="width:200px;" src="../../../assets/images/stripe.png" alt=""/></div>
                     <div class="payment_card mx-2"><img style="width:200px;" src="../../../assets/images/paypal.png" alt=""/></div>        
                 </div>
-                <button  class="app-button box-shadow-none my-4 bg-purple-primary o-5">Save Changes</button>
+                <button @click="saveChanges" class="app-button box-shadow-none my-4 bg-purple-primary o-5">Save Changes</button>
             </div>
-            <p>{{currentUser}}</p>
         </div>
     </div>
-</template>
+</template> 
 
 <script>
 export default {
     data: ()=>{
         return{
-            currentUser: {},
-            params: {}
+            currentUser: {
+                Address: {
+                    type: 'user'
+                }
+            },
         }
     },
     methods: {
        setUser(){
            return this.$store.getters.userData
-       }
+       },
+       saveChanges(){
+           !this.currentUser.addressId ? this.createAddress() : this.changeAddress();
+       },
+       saveUser(addressId){
+           this.currentUser.addressId = addressId
+           let tempUser = {...this.currentUser}
+           delete tempUser.Address
+           this.axios.put('/api/users/'+this.currentUser.id, tempUser).then(res=>{
+               console.log(res);
+           }).catch(error=>{
+               console.log(error);
+           })
+       },
+       createAddress(){
+            this.axios.post('/api/addresses', this.currentUser.Address).then(res=>{
+                this.saveUser(res.data.id)
+                this.currentUser.Address = res.data
+            }).catch(error=>{
+                console.log(error);
+            })  
+       },
+       changeAddress(){
+            this.axios.put('/api/addresses/'+this.currentUser.Address.id, this.currentUser.Address).then(res=>{
+                this.saveUser(res.data.id)
+                this.currentUser.Address = res.data
+            }).catch(error=>{
+                console.log(error);
+            }) 
+       },
     },
     created(){
         this.currentUser = this.$store.getters.userData

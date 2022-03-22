@@ -27,7 +27,7 @@
 </template>
 <style scoped>
 .main-container{
-    height: 200vh;
+    max-height: 100vh;
     overflow-y: scroll;
 }
 .navigation__element{

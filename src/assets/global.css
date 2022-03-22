@@ -443,3 +443,14 @@ input[type="color"]::-webkit-color-swatch {
   padding: 8px 20px;
   color:whitesmoke;
 }
+.text-field__style-creation{
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color:#251b63;
+  padding: 12px 20px;
+  color:whitesmoke;
+  width: 100%;
+  opacity: .7;
+  font-size:18px;
+}

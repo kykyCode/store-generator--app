@@ -1,69 +1,30 @@
 <template>
     <div class="bg-purple table__container">
-        <h4 class="px-5 fs-14" style="opacity: .8">TOP SELLING PRODUCTS</h4>
+        <h4 class="px-5 fs-14" style="opacity: .8">{{title}}</h4>
         <div class="bg-purple-soft my-3 header__container">
             <div class="d-flex px-5" style="opacity: .9">
                 <div class="header__element fw-500 fs-18">Name</div>
+                <div class="header__element fw-500 fs-18">Sizes</div>
                 <div class="header__element fw-500 fs-18">Price</div>
-                <div class="header__element fw-500 fs-18">Quantity</div>
-                <div class="header__element fw-500 fs-18">Income</div>
+                <div class="header__element fw-500 fs-18">Photo</div>
             </div>
         </div>
-        <div v-for="(product,index) in products" :key="product.id" class="d-flex px-5" style="position: relative; opacity: .8">
+        <div v-for="(product,index) in collection" :key="product.id" class="d-flex px-5" style="position: relative; opacity: .8">
             <div style="position: absolute; left:20px;top:10px; width:30px;" class="fw-500">{{index+1}}.</div>
             <div class="row__element">{{product.name}}</div>
-            <div class="row__element">{{product.qty}}</div>
-            <div class="row__element">{{product.price}} {{product.unit}}</div>
-            <div class="row__element">{{product.income}} {{product.unit}}</div>
+            <div class="row__element">{{product.availibleSizes}}</div>
+            <div class="row__element">{{product.price}} $</div>
+            <div class="row__element">{{product.photo}} </div>
         </div>
+        <div class="bg-purple-light px-3 py-3 mx-3 mt-3 shadow fs-18 text-center" style="width:300px; border-radius: 7px">Pagination component</div>
     </div>
 </template>
 <script>
 export default {
+    props: ['title', 'collection', 'show', 'price', 'availibleSizes'],
     data:()=>{
         return{
-            products: [
-                {
-                    id: 1,
-                    name: 'Koszulka Polo ze stujko',
-                    price: '19.99',
-                    unit: 'AUD',
-                    qty: '13',
-                    income: '700.00'
-                },
-                {
-                    id: 2,
-                    name: 'Polar cieply',
-                    price: '79.99',
-                    unit: 'AUD',
-                    qty: '4',
-                    income: '830.00'
-                },
-                {
-                    id: 3,
-                    name: 'Bluza hoodie',
-                    price: '29.99',
-                    unit: 'AUD',
-                    qty: '3',
-                    income: '666.75'
-                },
-                {
-                    id: 4,
-                    name: 'Spdonie cieple',
-                    price: '19.99',
-                    unit: 'AUD',
-                    qty: '13',
-                    income: '700.99'
-                },
-                {
-                    id: 5,
-                    name: 'Czapka z  daszmkiem',
-                    price: '15.49',
-                    unit: 'AUD',
-                    qty: '2',
-                    income: '30.50'
-                }
-            ]
+            
         }
     }
 }
