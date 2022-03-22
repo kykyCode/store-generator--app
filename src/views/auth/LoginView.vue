@@ -28,7 +28,7 @@ export default {
         ...mapActions(['setActiveUserToken', 'setActiveUser']),
         login(){
             this.axios.post('/api/login', this.params).then(res=>{
-                this.setActiveUser();
+                this.setActiveUser(res.data);
                 this.setActiveUserToken(res.data.accessToken);
                 this.$router.push('/app/dashboard')
                 }).catch(err=>console.log(err));
@@ -36,7 +36,7 @@ export default {
     },
     created(){
         this.setActiveUser();
-        if(this.$store.getters['activeUser'].first_name){
+        if(this.$store.getters['activeUser'].first_name_cookies){
             this.$router.push('/app/dashboard')
         }
     }

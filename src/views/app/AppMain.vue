@@ -22,7 +22,7 @@ export default {
         UserPanel
     },
     methods:{
-        ...mapActions(['setActiveUser'])
+        ...mapActions(['setActiveUser', 'setUserData'])
     },
     data: ()=>{
         return{
@@ -30,7 +30,8 @@ export default {
         }
     },
     created(){
-        this.setActiveUser();
+        this.setActiveUser()
+        this.setUserData()
     }
 }
 </script>

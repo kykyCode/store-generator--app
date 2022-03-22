@@ -7,6 +7,7 @@ import AppProducts from '../../views/app/products/AppProducts'
 import AppCreator from '../../views/app/creator/CreatorView'
 import AppAdminEdit from '../../views/app/users/AppAdminEdit'
 import store from '../../store/store'
+import {readCookie} from '../../helpers/cookiesHelper'
 
 
 
@@ -16,7 +17,7 @@ const dashboard = {
     component: AppMain,
     
     beforeEnter: (to, from, next) => {
-        if(!store.getters['activeUser'].first_name){
+        if(!readCookie('X')){
             return next({
                 path:'/login'
             })
